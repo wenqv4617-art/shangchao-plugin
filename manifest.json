@@ -2,15 +2,15 @@
   "id": "shangchao-plugin",
   "name": "上朝！",
   "version": "1.0.0",
-  "description": "一个集成了选秀、科考、推演背景、批阅奏折、后宫与御书房召见的模拟经营与长叙事角色互动App。",
+  "description": "一个后宫与朝堂模拟器。将你的角色们封为妃嫔或朝臣，体验批阅奏折、选秀科考、一键生成家世、留宿与密谈的帝王日常。",
   "author": "wenqv4617-art",
-  "entry": "https://raw.githubusercontent.com/wenqv4617-art/shangchao-plugin/main/shangchao.js",
+  "entry": "https://raw.githubusercontent.com/wenqv4617-art/shangchao-plugin/main/plugin.js",
   "hash": "",
   "permissions": [
     "persona:read",
     "character:read",
     "storage",
-    "ai:chat",
-    "ui"
+    "ui",
+    "ai:chat"
   ]
 }
