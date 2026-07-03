@@ -1,5 +1,5 @@
 (function () {
-  // 辅助函数：HTML转义防注入
+  // 辅助函数：HTML转义
   const esc = (str) => {
     if (!str) return '';
     return String(str)
@@ -15,18 +15,25 @@
     return 'sc_' + Math.random().toString(36).substring(2, 15);
   };
 
-  // 通用 SVG 矢量图标
+  // 极简 SVG 矢量图标库 (无表情符号)
   const ICONS = {
     home: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
     sessions: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><polyline points="12 6 12 12 16 14"></polyline></svg>`,
     archives: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`,
-    back: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>`,
-    edit: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z"></path></svg>`
+    back: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>`,
+    edit: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z"></path></svg>`,
+    add: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`,
+    delete: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>`,
+    view: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`,
+    close: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+    up: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>`,
+    down: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`,
+    chat: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`
   };
 
   const STYLE_ID = 'roche-plugin-shangchao-style';
 
-  // 现代浅色、极简无衬线 Slate + Indigo 视觉设计
+  // 现代浅蓝、空气感、高净度 Slate + Sky Blue 界面系统
   const STYLES = `
     .roche-plugin-shangchao {
       display: flex;
@@ -35,7 +42,7 @@
       height: 100%;
       background-color: #f8fafc;
       color: #0f172a;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       box-sizing: border-box;
       position: relative;
     }
@@ -55,7 +62,21 @@
       font-size: 16px;
       font-weight: 600;
       color: #1e293b;
-      letter-spacing: 0.5px;
+    }
+    /* 极致简化无边框返回/关闭按钮 */
+    .sc-header-btn-plain {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #64748b;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+    .sc-header-btn-plain:hover {
+      color: #0ea5e9;
     }
     .sc-header-btn {
       display: flex;
@@ -80,7 +101,6 @@
       overflow-y: auto;
       padding: 16px;
     }
-    /* 存在Dock栏时给底部留出空间 */
     .roche-plugin-shangchao.has-dock .sc-viewport {
       padding-bottom: 80px;
     }
@@ -97,7 +117,6 @@
       align-items: center;
       z-index: 10;
     }
-    /* 仅在主页签下展示Dock */
     .roche-plugin-shangchao.has-dock .sc-dock {
       display: flex;
     }
@@ -121,7 +140,7 @@
       color: #0f172a;
     }
     .sc-dock-item.active {
-      color: #4f46e5;
+      color: #0ea5e9;
       font-weight: 600;
     }
     .sc-card {
@@ -163,14 +182,33 @@
       background-color: #f8fafc;
       border-color: #cbd5e1;
     }
+    /* SVG专属小动作按钮，无繁冗文字 */
+    .sc-btn-icon {
+      padding: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      line-height: 1;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .sc-btn-icon:hover {
+      background-color: #f1f5f9;
+      color: #0ea5e9;
+      border-color: #cbd5e1;
+    }
     .sc-btn-primary {
-      background-color: #4f46e5;
-      border-color: #4f46e5;
+      background-color: #0ea5e9;
+      border-color: #0ea5e9;
       color: #ffffff;
     }
     .sc-btn-primary:hover {
-      background-color: #4338ca;
-      border-color: #4338ca;
+      background-color: #0284c7;
+      border-color: #0284c7;
     }
     .sc-input, .sc-select {
       width: 100%;
@@ -184,7 +222,7 @@
     }
     .sc-input:focus, .sc-select:focus {
       outline: none;
-      border-color: #4f46e5;
+      border-color: #0ea5e9;
     }
     .sc-badge {
       font-size: 11px;
@@ -212,7 +250,7 @@
     .sc-list-item:last-child {
       border-bottom: none;
     }
-    /* 折叠面板 (卷宗专用) */
+    /* 卷宗 details 折叠与详情行 */
     .sc-archive-details {
       margin-top: 8px;
       border: 1px solid #f1f5f9;
@@ -224,7 +262,7 @@
       padding: 8px 12px;
       font-size: 12px;
       font-weight: 500;
-      color: #4f46e5;
+      color: #0ea5e9;
       cursor: pointer;
       user-select: none;
       outline: none;
@@ -239,7 +277,26 @@
       border-top: 1px solid #f1f5f9;
       line-height: 1.6;
     }
-    /* 对话容器样式 */
+    /* NPC管理独立列表行 */
+    .sc-npc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+    }
+    .sc-npc-info {
+      font-size: 13px;
+      color: #334155;
+    }
+    .sc-npc-actions {
+      display: flex;
+      gap: 6px;
+    }
+    /* 对话布局样式 */
     .sc-chat-container {
       display: flex;
       flex-direction: column;
@@ -297,9 +354,8 @@
     }
     .sc-chat-input:focus {
       outline: none;
-      border-color: #4f46e5;
+      border-color: #0ea5e9;
     }
-    /* 奏折白描板式 */
     .sc-memorial-scroll {
       background-color: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -322,7 +378,6 @@
     }
   `;
 
-  // 默认王朝信息
   const DEFAULT_DYNASTY = {
     eraName: '大燕',
     year: '元'
@@ -331,7 +386,7 @@
   window.RochePlugin.register({
     id: 'shangchao-plugin',
     name: '上朝！',
-    version: '1.1.0',
+    version: '1.2.0',
     apps: [
       {
         id: 'shangchao-home',
@@ -348,7 +403,7 @@
             document.head.appendChild(style);
           }
 
-          // 初始化SPA基础架构
+          // 初始化主页面
           container.innerHTML = `
             <div class="roche-plugin-shangchao has-dock">
               <div class="sc-header"></div>
@@ -374,6 +429,7 @@
           let currentTab = 'home';
           let currentSubView = null; // 'draft', 'exam', 'background', 'memorials', 'harem', 'study', 'emperor', 'chat'
           let activeChatSessionId = null;
+          let isAiThinking = false; // AI回复等待状态标记
 
           let listCharacters = [];
           let dynInfo = DEFAULT_DYNASTY;
@@ -404,11 +460,9 @@
             }
           };
 
-          // 核心渲染管理器
           const render = () => {
             renderHeader();
 
-            // 如果处于二级页面或召见会话页，隐藏底部导航
             if (currentSubView) {
               mainWrapper.classList.remove('has-dock');
               renderSubView();
@@ -418,31 +472,48 @@
             }
           };
 
-          // 动态渲染顶部栏与安全退出按钮
+          // 渲染顶部：二级子页面支持极简无框 SVG 退回，召见页支持动态加载文本
           const renderHeader = () => {
-            if (currentSubView) {
-              // 二级视图：退出按钮放左上角
+            if (currentSubView === 'chat') {
+              const session = gameData.sessions.find(s => s.id === activeChatSessionId);
+              const char = session ? listCharacters.find(c => c.id === session.charId) : null;
+              
+              // 请求回复时，顶部标题动态切换为“输入中……”
+              const headerTitleText = isAiThinking ? '输入中……' : (char ? char.name : '召见');
+
               headerContainer.innerHTML = `
-                <button class="sc-header-btn" id="sc-header-back-btn">
-                  ${ICONS.back} <span>返回</span>
+                <button class="sc-header-btn-plain" id="sc-header-back-btn" title="返回">
+                  ${ICONS.back}
                 </button>
-                <div class="sc-header-title">【${esc(dynInfo.eraName)}】${esc(dynInfo.year)}年</div>
-                <div style="width:72px;"></div> 
+                <div class="sc-header-title">${esc(headerTitleText)}</div>
+                <div style="width:32px;"></div> 
               `;
               headerContainer.querySelector('#sc-header-back-btn').onclick = () => {
                 currentSubView = null;
                 activeChatSessionId = null;
                 render();
               };
+            } else if (currentSubView) {
+              headerContainer.innerHTML = `
+                <button class="sc-header-btn-plain" id="sc-header-back-btn" title="返回">
+                  ${ICONS.back}
+                </button>
+                <div class="sc-header-title">【${esc(dynInfo.eraName)}】${esc(dynInfo.year)}年</div>
+                <div style="width:32px;"></div> 
+              `;
+              headerContainer.querySelector('#sc-header-back-btn').onclick = () => {
+                currentSubView = null;
+                render();
+              };
             } else {
-              // 一级视图：右上角放置退出按钮
+              // 主页签：右上角极简 SVG 关闭
               headerContainer.innerHTML = `
                 <div class="sc-header-title">
                   上朝！
                   <span class="sc-dynasty-badge">【${esc(dynInfo.eraName)}】${esc(dynInfo.year)}年</span>
                 </div>
-                <button class="sc-header-btn" id="sc-header-close-btn">
-                  <span>退出</span>
+                <button class="sc-header-btn-plain" id="sc-header-close-btn" title="退出">
+                  ${ICONS.close}
                 </button>
               `;
               headerContainer.querySelector('#sc-header-close-btn').onclick = () => {
@@ -483,10 +554,10 @@
                 </div>
 
                 <div class="sc-card">
-                  <div class="sc-card-title">天下巡视</div>
+                  <div class="sc-card-title">巡视召见</div>
                   <div class="sc-grid">
-                    <button class="sc-btn" id="sc-nav-harem" style="border-color: #f43f5e; color:#e11d48; background-color:#fff1f2;">后宫召见</button>
-                    <button class="sc-btn" id="sc-nav-study" style="border-color: #0284c7; color:#0369a1; background-color:#f0f9ff;">御书房召见</button>
+                    <button class="sc-btn" id="sc-nav-harem" style="border-color: #38bdf8; color:#0284c7; background-color:#f0f9ff;">后宫召见</button>
+                    <button class="sc-btn" id="sc-nav-study" style="border-color: #38bdf8; color:#0284c7; background-color:#f0f9ff;">御书房召见</button>
                   </div>
                 </div>
               `;
@@ -504,7 +575,7 @@
               if (sList.length === 0) {
                 viewContainer.innerHTML = `
                   <div style="text-align:center; padding: 40px 10px; color:#64748b; font-size:14px;">
-                    暂无正在进行中的留宿与密谈会话。
+                    暂无进行中的召见。
                   </div>
                 `;
                 return;
@@ -513,7 +584,7 @@
               let html = `<div class="sc-card"><div class="sc-card-title">进行中的召见</div>`;
               sList.forEach((s) => {
                 const char = listCharacters.find(c => c.id === s.charId);
-                const name = char ? char.name : '未知角色'; // 严格使用本名
+                const name = char ? char.name : '未知角色';
                 const role = gameData.roles[s.charId] || {};
                 const titleText = role.title ? `【${role.title}】` : '';
                 const typeText = s.type === 'overnight' ? '后宫留宿' : '御书房密谈';
@@ -568,7 +639,7 @@
 
               let html = '';
               listCharacters.forEach(c => {
-                const role = gameData.roles[c.id] || { type: 'none', title: '平民', rank: '' };
+                const role = gameData.roles[c.id] || { type: 'none', title: '平民', rank: '', background: '', npcs: [] };
                 const bg = role.background || '暂无详细家世设定';
                 const npcs = role.npcs || [];
 
@@ -582,7 +653,7 @@
                   badgeText = '朝臣';
                 }
 
-                // 详情过长时，采用原生 details summary 折叠
+                // 卷宗折叠：亲属模块设计为独立栏并支持精细化 CRUD [2, 4]
                 html += `
                   <div style="padding:14px 0; border-bottom:1px solid #f1f5f9;">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -591,29 +662,152 @@
                     </div>
                     
                     <details class="sc-archive-details">
-                      <summary>展开查看背景档案</summary>
+                      <summary>展开查看详细背景</summary>
                       <div class="sc-archive-content">
-                        <div style="margin-bottom:8px;"><strong>家世：</strong>${esc(bg)}</div>
+                        <div style="margin-bottom:12px;">
+                          <strong>家世背景：</strong>
+                          <div style="margin-top:4px; padding:8px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:6px; min-height:40px;">
+                            ${esc(bg)}
+                          </div>
+                        </div>
                         <div>
                           <strong>亲属戚党 (${npcs.length}/5)：</strong>
-                          ${npcs.length === 0 ? '暂无记录' : npcs.map(n => `${esc(n.name)} (${esc(n.relation)}: ${esc(n.bio)})`).join('；')}
+                          <div id="sc-npc-list-container-${c.id}" style="margin-top:6px;">
+                            ${npcs.length === 0 ? '<div style="font-size:12px; color:#94a3b8; padding:8px 0;">暂无记录</div>' : npcs.map((n, idx) => `
+                              <div class="sc-npc-row">
+                                <span class="sc-npc-info"><strong>${esc(n.name)}</strong> (${esc(n.relation)})</span>
+                                <div class="sc-npc-actions">
+                                  <button class="sc-btn-icon" id="sc-btn-npc-view-${c.id}-${idx}" title="查看">${ICONS.view}</button>
+                                  <button class="sc-btn-icon" style="color:#ef4444;" id="sc-btn-npc-del-${c.id}-${idx}" title="删除">${ICONS.delete}</button>
+                                </div>
+                              </div>
+                            `).join('')}
+                          </div>
+                          <div style="margin-top:8px; text-align:right;">
+                            <button class="sc-btn-icon sc-btn-primary" id="sc-btn-npc-add-${c.id}" title="新增亲属">${ICONS.add}</button>
+                          </div>
                         </div>
                       </div>
                     </details>
 
                     <div style="margin-top:10px; text-align:right;">
-                      <button class="sc-btn" style="padding:4px 8px; font-size:12px;" id="sc-btn-edit-arch-${c.id}">修改属性</button>
+                      <button class="sc-btn-icon" id="sc-btn-edit-arch-${c.id}" title="修改定位及位份">${ICONS.edit}</button>
                     </div>
                   </div>
                 `;
               });
               listDiv.innerHTML = html;
 
+              // 注册事件
               listCharacters.forEach(c => {
+                const role = gameData.roles[c.id] || { npcs: [] };
+
                 container.querySelector(`#sc-btn-edit-arch-${c.id}`).onclick = () => {
                   openEditArchiveModal(c.id);
                 };
+
+                // NPC 查看、删除及新增事件绑定
+                (role.npcs || []).forEach((n, idx) => {
+                  container.querySelector(`#sc-btn-npc-view-${c.id}-${idx}`).onclick = () => {
+                    showNpcBioModal(n);
+                  };
+                  container.querySelector(`#sc-btn-npc-del-${c.id}-${idx}`).onclick = () => {
+                    deleteNpc(c.id, idx);
+                  };
+                });
+
+                container.querySelector(`#sc-btn-npc-add-${c.id}`).onclick = () => {
+                  showAddNpcModal(c.id);
+                };
               });
+            }
+          };
+
+          // 弹出展示 NPC 详细背景
+          const showNpcBioModal = (npc) => {
+            const mask = document.createElement('div');
+            mask.style.cssText = `
+              position: absolute; top:0; left:0; right:0; bottom:0;
+              background-color: rgba(15, 23, 42, 0.4);
+              display: flex; align-items: center; justify-content: center;
+              z-index: 1000; padding: 20px;
+            `;
+            mask.innerHTML = `
+              <div class="sc-card" style="width:100%; max-width: 320px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
+                <div class="sc-card-title">${esc(npc.name)} <span class="sc-badge">${esc(npc.relation)}</span></div>
+                <div style="font-size:13px; color:#475569; line-height:1.6; margin-bottom:16px;">${esc(npc.bio || '无详细记录')}</div>
+                <button class="sc-btn sc-btn-primary" style="width:100%;" id="sc-modal-close-view">知悉</button>
+              </div>
+            `;
+            container.querySelector('.roche-plugin-shangchao').appendChild(mask);
+            mask.querySelector('#sc-modal-close-view').onclick = () => mask.remove();
+          };
+
+          // 弹窗式创建 NPC 戚党 [2]
+          const showAddNpcModal = (charId) => {
+            const role = gameData.roles[charId] || { npcs: [] };
+            if ((role.npcs || []).length >= 5) {
+              roche.ui.toast('一个角色最多拥有五个身边人');
+              return;
+            }
+
+            const mask = document.createElement('div');
+            mask.style.cssText = `
+              position: absolute; top:0; left:0; right:0; bottom:0;
+              background-color: rgba(15, 23, 42, 0.4);
+              display: flex; align-items: center; justify-content: center;
+              z-index: 1000; padding: 20px;
+            `;
+            mask.innerHTML = `
+              <div class="sc-card" style="width:100%; max-width: 320px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
+                <div class="sc-card-title">新增戚族亲眷</div>
+                <label style="font-size:11px; color:#64748b;">姓名</label>
+                <input class="sc-input" type="text" id="sc-npc-new-name" placeholder="如：沈老太爷">
+                <label style="font-size:11px; color:#64748b;">关系</label>
+                <input class="sc-input" type="text" id="sc-npc-new-relation" placeholder="如：祖父">
+                <label style="font-size:11px; color:#64748b;">背景生平</label>
+                <textarea class="sc-input" style="height:60px; resize:none;" id="sc-npc-new-bio" placeholder="曾任吏部侍郎，在乡间颇有德望。"></textarea>
+                <div style="display:flex; gap:8px;">
+                  <button class="sc-btn" style="flex:1;" id="sc-modal-npc-cancel">取消</button>
+                  <button class="sc-btn sc-btn-primary" style="flex:1;" id="sc-modal-npc-save">录入</button>
+                </div>
+              </div>
+            `;
+            container.querySelector('.roche-plugin-shangchao').appendChild(mask);
+            
+            mask.querySelector('#sc-modal-npc-cancel').onclick = () => mask.remove();
+            mask.querySelector('#sc-modal-npc-save').onclick = async () => {
+              const name = mask.querySelector('#sc-npc-new-name').value.trim();
+              const relation = mask.querySelector('#sc-npc-new-relation').value.trim();
+              const bio = mask.querySelector('#sc-npc-new-bio').value.trim();
+              if (!name || !relation) {
+                roche.ui.toast('请输入姓名与关系');
+                return;
+              }
+              
+              if (!gameData.roles[charId]) {
+                gameData.roles[charId] = { type: 'none', title: '', rank: '', background: '', npcs: [] };
+              }
+              if (!gameData.roles[charId].npcs) gameData.roles[charId].npcs = [];
+              gameData.roles[charId].npcs.push({ name, relation, bio });
+              await saveGameData();
+              mask.remove();
+              roche.ui.toast('戚党亲眷录入成功');
+              render();
+            };
+          };
+
+          // 删除专属 NPC
+          const deleteNpc = async (charId, npcIdx) => {
+            const confirm = await roche.ui.confirm({
+              title: '删除亲眷',
+              message: '确定要裁撤移除此亲族背景吗？'
+            });
+            if (confirm) {
+              gameData.roles[charId].npcs.splice(npcIdx, 1);
+              await saveGameData();
+              roche.ui.toast('已将其自档案中除去');
+              render();
             }
           };
 
@@ -672,15 +866,15 @@
                 <div class="sc-card">
                   <div class="sc-card-title">王朝设定</div>
                   
-                  <label style="font-size:12px; color:#64748b;">帝国/王朝国号</label>
+                  <label style="font-size:12px; color:#64748b;">国号</label>
                   <input class="sc-input" type="text" id="sc-set-dynasty" value="${esc(dynInfo.eraName)}">
 
-                  <label style="font-size:12px; color:#64748b;">当前年号 (如：开元、万历)</label>
+                  <label style="font-size:12px; color:#64748b;">年号 (如：开元、万历)</label>
                   <input class="sc-input" type="text" id="sc-set-year" value="${esc(dynInfo.year)}">
 
                   <div style="display:flex; gap:12px; margin-top:12px;">
                     <button class="sc-btn" style="flex:1;" id="sc-set-back">取消</button>
-                    <button class="sc-btn sc-btn-primary" style="flex:1;" id="sc-set-save">保存修改</button>
+                    <button class="sc-btn sc-btn-primary" style="flex:1;" id="sc-set-save">保存</button>
                   </div>
                 </div>
               `;
@@ -699,20 +893,20 @@
               let charOptions = listCharacters.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
               viewContainer.innerHTML = `
                 <div class="sc-card">
-                  <div class="sc-card-title">大典秀选</div>
-                  <label style="font-size:12px; color:#64748b;">请选择人选</label>
+                  <div class="sc-card-title">选秀大典</div>
+                  <label style="font-size:12px; color:#64748b;">大典秀女人选</label>
                   <select class="sc-select" id="sc-draft-char">${charOptions}</select>
                   
-                  <button class="sc-btn sc-btn-primary" style="width:100%; margin-bottom:12px;" id="sc-btn-draft-speak">听取言谈</button>
+                  <button class="sc-btn sc-btn-primary" style="width:100%; margin-bottom:12px;" id="sc-btn-draft-speak">听其自陈</button>
                   
-                  <div id="sc-draft-speech" class="sc-memorial-scroll" style="display:none;">聆听中...</div>
+                  <div id="sc-draft-speech" class="sc-memorial-scroll" style="display:none;">请稍候...</div>
 
                   <div id="sc-draft-assign" style="display:none;">
-                    <label style="font-size:12px; color:#64748b;">新封位份 (如：贵妃、昭仪、婕妤)</label>
-                    <input class="sc-input" type="text" id="sc-draft-title" placeholder="如：婕妤">
+                    <label style="font-size:12px; color:#64748b;">授封位份 (如：婕妤、美人)</label>
+                    <input class="sc-input" type="text" id="sc-draft-title" placeholder="如：贵人">
                     
                     <label style="font-size:12px; color:#64748b;">品级 (1至9品)</label>
-                    <input class="sc-input" type="text" id="sc-draft-rank" placeholder="如：三品">
+                    <input class="sc-input" type="text" id="sc-draft-rank" placeholder="如：五品">
 
                     <button class="sc-btn sc-btn-primary" style="width:100%;" id="sc-btn-draft-confirm">册封入宫</button>
                   </div>
@@ -732,11 +926,10 @@
                 assignBox.style.display = 'none';
 
                 try {
-                  const prompt = `你是角色【${char.name}】。在模拟王朝场景中，你作为候选秀女站在殿前，接受皇帝的考核。
-                  请完全遵照你原有的性格、特征、人设和生理性别进行自然的表白。
-                  【格式规范】：
-                  1. 使用通顺流畅的自然语言。禁止刻意填充大篇幅浮夸陈旧的古风废话。
-                  2. 坚决禁止任何表情符号(emoji)。
+                  const prompt = `你是角色【${char.name}】。在模拟场景中，你作为选秀女站在大殿前。请完全遵照你原有的性格、特征、性别设想，自然陈词。
+                  【规范】：
+                  1. 语言要通顺流畅。禁止无意义生造繁复古风套话。
+                  2. 坚决禁止任何 emoji 表情符号。
                   3. 字数控制在100字左右。`;
                   
                   const res = await roche.ai.chat({
@@ -746,13 +939,13 @@
                   speechBox.innerHTML = esc(res.text);
                   assignBox.style.display = 'block';
                 } catch (e) {
-                  speechBox.innerText = '系统连接超时，请重试。';
+                  speechBox.innerText = '连接超时，请重试。';
                 }
               };
 
               container.querySelector('#sc-btn-draft-confirm').onclick = async () => {
                 const charId = container.querySelector('#sc-draft-char').value;
-                const title = container.querySelector('#sc-draft-title').value || '才人';
+                const title = container.querySelector('#sc-draft-title').value || '贵人';
                 const rank = container.querySelector('#sc-draft-rank').value || '五品';
 
                 if (!gameData.roles[charId]) {
@@ -763,7 +956,7 @@
                 gameData.roles[charId].rank = rank;
 
                 await saveGameData();
-                roche.ui.toast(`册封指令已发。`);
+                roche.ui.toast(`册立旨意已下`);
                 currentSubView = null;
                 render();
               };
@@ -776,7 +969,7 @@
                   <label style="font-size:12px; color:#64748b;">考生</label>
                   <select class="sc-select" id="sc-exam-char">${charOptions}</select>
                   
-                  <label style="font-size:12px; color:#64748b;">命题</label>
+                  <label style="font-size:12px; color:#64748b;">策问命题</label>
                   <input class="sc-input" type="text" id="sc-exam-question" value="如何合理平抑粮价以安民生？">
 
                   <button class="sc-btn sc-btn-primary" style="width:100%; margin-bottom:12px;" id="sc-btn-exam-run">开始作答</button>
@@ -784,13 +977,13 @@
                   <div id="sc-exam-result" class="sc-memorial-scroll" style="display:none;">阅卷中...</div>
 
                   <div id="sc-exam-assign" style="display:none;">
-                    <label style="font-size:12px; color:#64748b;">授予官职 (如：大学士、侍郎、中书)</label>
+                    <label style="font-size:12px; color:#64748b;">授予官职 (如：修撰、侍郎)</label>
                     <input class="sc-input" type="text" id="sc-exam-title" placeholder="如：修撰">
                     
                     <label style="font-size:12px; color:#64748b;">品级 (1-9品)</label>
                     <input class="sc-input" type="text" id="sc-exam-rank" placeholder="如：六品">
 
-                    <button class="sc-btn sc-btn-primary" style="width:100%;" id="sc-btn-exam-confirm">授予官职</button>
+                    <button class="sc-btn sc-btn-primary" style="width:100%;" id="sc-btn-exam-confirm">钦点进士</button>
                   </div>
                 </div>
               `;
@@ -809,11 +1002,11 @@
                 assignBox.style.display = 'none';
 
                 try {
-                  const prompt = `你是考生【${char.name}】。在本次科举考核中，面对考题：“${question}”，请给出你的策论答卷。
-                  【格式规范】：
-                  1. 结合角色自身人设，使用清爽、利落的书面文笔进行答辩。禁止塞满矫作蹩脚、空洞无物的生造古风陈词滥调。
-                  2. 严格尊重并遵从你设定的性别。
-                  3. 字数限制在150-200字左右，不包含任何emoji。`;
+                  const prompt = `你是殿试考生【${char.name}】。考题为：“${question}”。
+                  【规范】：
+                  1. 结合你自身原本性格，进行流畅、平实的答卷。严禁堆积空洞做作的拟古套词。
+                  2. 绝对遵循并体现你原本的性别特征。
+                  3. 字数约150字，无任何 emoji。`;
                   
                   const res = await roche.ai.chat({
                     messages: [{ role: 'user', content: prompt }],
@@ -822,7 +1015,7 @@
                   resBox.innerHTML = esc(res.text);
                   assignBox.style.display = 'block';
                 } catch (e) {
-                  resBox.innerText = '调用接口失败。';
+                  resBox.innerText = '接口返回异常。';
                 }
               };
 
@@ -839,7 +1032,7 @@
                 gameData.roles[charId].rank = rank;
 
                 await saveGameData();
-                roche.ui.toast(`官制册立完毕。`);
+                roche.ui.toast(`任免已定。`);
                 currentSubView = null;
                 render();
               };
@@ -848,7 +1041,7 @@
               let charOptions = listCharacters.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
               viewContainer.innerHTML = `
                 <div class="sc-card">
-                  <div class="sc-card-title">一键家世身边人</div>
+                  <div class="sc-card-title">一键家世生成</div>
                   <label style="font-size:12px; color:#64748b;">选择角色</label>
                   <select class="sc-select" id="sc-bg-char">${charOptions}</select>
 
@@ -864,19 +1057,19 @@
                 if (!char) return;
 
                 resBox.style.display = 'block';
-                resBox.innerText = '查询中...';
+                resBox.innerText = '查询整理中...';
 
                 try {
-                  const prompt = `你现在是一个家世背景生成器。请根据角色【${char.name}】（原有背景属性：${char.persona || char.bio || '无'}），为该角色派生家族家世，以及不超过5个NPC身边亲信/戚属成员。
-                    【限制要求】：
-                    1. 严格保留该角色设定的性别属性，禁止改变任何男女倾向设定。
-                    2. 必须输出以下纯净JSON数据，不要包含任何markdown标记包裹、不要带有任何emoji。
+                  const prompt = `你是一个古代家世设定生成器。请根据角色【${char.name}】（人设描述：${char.persona || char.bio || '无'}），生成一份该角色在朝代中的家族家世，以及最多5个NPC身边亲信或亲属。
+                    【规范限制】：
+                    1. 严格保留并遵循该角色的原设生理性别，严禁修改任何性别设定。
+                    2. 必须输出纯净的以下JSON内容，禁止附带任何 markdown 包裹及任何 emoji 表情。
                     
                     {
-                      "background": "江南百年书香世家出身...",
+                      "background": "京兆世家出身...",
                       "npcs": [
-                        {"name": "沈阁老", "relation": "父亲", "bio": "曾任户部侍郎，朝中人脉极广。"},
-                        {"name": "沈青羽", "relation": "同胞弟弟", "bio": "性子跳脱，好侠义事。"}
+                        {"name": "沈大人", "relation": "父亲", "bio": "曾任通政使，为人严苛。"},
+                        {"name": "沈青衣", "relation": "胞妹", "bio": "自幼聪慧，精通诗书。"}
                       ]
                     }`;
 
@@ -896,14 +1089,14 @@
 
                   await saveGameData();
 
-                  let html = `<strong>家世：</strong><br>${esc(gameData.roles[charId].background)}<br><br><strong>亲眷身侧 (已折叠在卷宗)：</strong><br>`;
+                  let html = `<strong>世家家世：</strong><br>${esc(gameData.roles[charId].background)}<br><br><strong>戚族身边人 (已写入卷宗，可在卷宗增删)：</strong><br>`;
                   gameData.roles[charId].npcs.forEach((n, idx) => {
                     html += `${idx + 1}. ${esc(n.name)} (${esc(n.relation)}) - ${esc(n.bio)}<br>`;
                   });
 
                   resBox.innerHTML = html;
                 } catch (err) {
-                  resBox.innerText = '解析生成失败，请重试。';
+                  resBox.innerText = '系统解析异常，请重试。';
                 }
               };
 
@@ -915,8 +1108,8 @@
                   viewContainer.innerHTML = `
                     <div class="sc-card">
                       <div class="sc-card-title">批阅奏折</div>
-                      <div style="text-align:center; padding:30px 0; color:#64748b; font-size:14px;">暂无未批阅的奏折。</div>
-                      <button class="sc-btn sc-btn-primary" style="width:100%;" id="sc-btn-gen-memo">呈递新折子</button>
+                      <div style="text-align:center; padding:30px 0; color:#64748b; font-size:14px;">暂面积存本章。</div>
+                      <button class="sc-btn sc-btn-primary" style="width:100%;" id="sc-btn-gen-memo">呈递新疏</button>
                     </div>
                   `;
 
@@ -929,7 +1122,7 @@
                 const currentMemo = mList[0];
                 viewContainer.innerHTML = `
                   <div class="sc-card">
-                    <div class="sc-card-title">臣工折奏</div>
+                    <div class="sc-card-title">臣僚章奏</div>
                     <div class="sc-memorial-scroll">
                       <div style="font-weight:600; font-size:15px; margin-bottom:4px;">《${esc(currentMemo.title)}》</div>
                       <span style="font-size:12px; color:#64748b; display:block; margin-bottom:12px;">呈奏人：${esc(currentMemo.author)}</span>
@@ -946,7 +1139,7 @@
 
                 currentMemo.options.forEach((opt, i) => {
                   container.querySelector(`#sc-btn-memo-opt-${i}`).onclick = async () => {
-                    roche.ui.toast(`裁处成功。${opt.effect}`);
+                    roche.ui.toast(`已予裁定。${opt.effect}`);
                     gameData.memorials.shift();
                     await saveGameData();
                     renderMemorialCard();
@@ -955,7 +1148,7 @@
               };
 
               const generateNewMemorial = async () => {
-                roche.ui.toast('拟折中...');
+                roche.ui.toast('传拟奏疏...');
                 try {
                   let officials = Object.entries(gameData.roles)
                     .filter(([_, r]) => r.type === 'official')
@@ -969,20 +1162,20 @@
                     .filter(Boolean)
                     .map(c => c.name);
 
-                  const prompt = `请生成一封古代大臣上呈的奏疏折本。
-                    可结合已有朝臣【${officials.join(', ') || '重臣'}】或后宫【${concubines.join(', ') || '嫔妃'}】。内容涉及地方军政、赈灾救济、弹劾排挤或邀宠。
-                    【限制要求】：
-                    1. 严格确保涉及人物原本的生理性别，绝不改变任何人的性别设定。
-                    2. 文笔要自然简明，不可堆积庸俗繁琐的陈旧仿古句式。
-                    3. 严格输出以下JSON，绝不包含任何emoji、markdown代码块。
+                  const prompt = `请设计并生成一封由臣工呈交的古代政务或宫掖利益诉求折本。
+                    可结合已有朝廷重臣【${officials.join(', ') || '重臣'}】，或者后宫势力【${concubines.join(', ') || '嫔妃'}】。内容可涉及弹劾、求恩典、求调拨粮饷等。
+                    【限制】：
+                    1. 严密保留所有涉及角色的真实生理性别，绝不改变性别。
+                    2. 笔触平实通顺，不刻意堆积矫柔造作的繁重仿古套句。
+                    3. 严格输出以下纯JSON数据，不要包含任何 markdown 标识包裹或任何 emoji。
                     
                     {
-                      "title": "奏陈地方疏",
-                      "author": "巡抚张某",
-                      "content": "近来秋收欠收，百姓无粮，恐有民变，请拨粮饷数万石...",
+                      "title": "奏陈赈灾事宜本",
+                      "author": "知府 陆某",
+                      "content": "地方遭逢夏潦，民户田产浸没。请圣上早发国库，赈免民税...",
                       "options": [
-                        { "text": "准奏，开仓赈济", "effect": "民情趋于稳定，但库粮消耗较大。" },
-                        { "text": "驳回，自行解决", "effect": "地方局势吃紧，人心难平。" }
+                        { "text": "准奏，发银一万两", "effect": "灾民获安，但国库吃紧。" },
+                        { "text": "暂缓，令豪绅劝捐", "effect": "豪绅不满，安抚成效有限。" }
                       ]
                     }`;
 
@@ -1006,7 +1199,7 @@
                   await saveGameData();
                   renderMemorialCard();
                 } catch (e) {
-                  roche.ui.toast('生成失败。');
+                  roche.ui.toast('生成失败，请重试。');
                 }
               };
 
@@ -1026,28 +1219,27 @@
                   <div class="sc-card">
                     <div class="sc-card-title">后宫妃嫔</div>
                     <div style="text-align:center; padding: 40px 10px; color:#64748b; font-size:14px;">
-                      后宫无人。请先举行选秀。
+                      后宫空无一人。请先进行秀选。
                     </div>
                   </div>
                 `;
                 return;
               }
 
+              // 列表交互重构：纯现代 SVG 图标，无字简约化设计 [4]
               let html = `<div class="sc-card"><div class="sc-card-title">后宫召见</div>`;
               haremList.forEach(item => {
-                const charName = item.char.name; // 严格使用本名
+                const charName = item.char.name;
                 html += `
-                  <div class="sc-list-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                      <div>
-                        <strong style="color:#0f172a;">${esc(charName)}</strong>
-                        <span style="font-size:12px; color:#64748b; margin-left:8px;">【${esc(item.title)}】 (${esc(item.rank ? item.rank + '品' : '无')})</span>
-                      </div>
+                  <div class="sc-list-item">
+                    <div>
+                      <strong style="color:#0f172a;">${esc(charName)}</strong>
+                      <span style="font-size:12px; color:#64748b; margin-left:8px;">【${esc(item.title)}】 (${esc(item.rank ? item.rank + '品' : '无')})</span>
                     </div>
                     <div style="display:flex; gap: 8px;">
-                      <button class="sc-btn" style="padding:4px 8px; font-size:12px;" id="sc-btn-harem-promote-${item.char.id}">晋升</button>
-                      <button class="sc-btn" style="padding:4px 8px; font-size:12px;" id="sc-btn-harem-demote-${item.char.id}">贬退</button>
-                      <button class="sc-btn sc-btn-primary" style="padding:4px 12px; font-size:12px;" id="sc-btn-harem-stay-${item.char.id}">召见留宿</button>
+                      <button class="sc-btn-icon" id="sc-btn-harem-promote-${item.char.id}" title="晋升位分">${ICONS.up}</button>
+                      <button class="sc-btn-icon" id="sc-btn-harem-demote-${item.char.id}" title="贬退责罚">${ICONS.down}</button>
+                      <button class="sc-btn-icon sc-btn-primary" id="sc-btn-harem-stay-${item.char.id}" title="召见留宿">${ICONS.chat}</button>
                     </div>
                   </div>
                 `;
@@ -1060,21 +1252,21 @@
                 const cid = item.char.id;
 
                 container.querySelector(`#sc-btn-harem-promote-${cid}`).onclick = async () => {
-                  const newTitle = await promptInputText('晋封位位', '拟定册立新称号（如：贵妃、昭仪）');
+                  const newTitle = await promptInputText('晋位', '拟定册晋称号');
                   if (newTitle) {
                     gameData.roles[cid].title = newTitle;
                     await saveGameData();
-                    roche.ui.toast(`已降旨：晋 ${esc(item.char.name)} 为：${esc(newTitle)}。`);
+                    roche.ui.toast(`已晋 ${esc(item.char.name)} 为：${esc(newTitle)}。`);
                     renderSubView();
                   }
                 };
 
                 container.querySelector(`#sc-btn-harem-demote-${cid}`).onclick = async () => {
-                  const newTitle = await promptInputText('贬退黜责', '拟降贬新名号（如：答应、常在）');
+                  const newTitle = await promptInputText('贬位', '拟定降免称号');
                   if (newTitle) {
                     gameData.roles[cid].title = newTitle;
                     await saveGameData();
-                    roche.ui.toast(`已裁决：降 ${esc(item.char.name)} 为：${esc(newTitle)}。`);
+                    roche.ui.toast(`已黜 ${esc(item.char.name)} 为：${esc(newTitle)}。`);
                     renderSubView();
                   }
                 };
@@ -1107,9 +1299,9 @@
               if (officialList.length === 0) {
                 viewContainer.innerHTML = `
                   <div class="sc-card">
-                    <div class="sc-card-title">阁僚朝臣</div>
+                    <div class="sc-card-title">阁臣重臣</div>
                     <div style="text-align:center; padding: 40px 10px; color:#64748b; font-size:14px;">
-                      朝中无任免官员。请举行科考。
+                      朝中无欽定官员。请先进行殿试。
                     </div>
                   </div>
                 `;
@@ -1118,19 +1310,17 @@
 
               let html = `<div class="sc-card"><div class="sc-card-title">御书前殿</div>`;
               officialList.forEach(item => {
-                const charName = item.char.name; // 严格使用本名
+                const charName = item.char.name;
                 html += `
-                  <div class="sc-list-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                      <div>
-                        <strong style="color:#0f172a;">${esc(charName)}</strong>
-                        <span style="font-size:12px; color:#64748b; margin-left:8px;">【${esc(item.title)}】 (${esc(item.rank ? item.rank + '品' : '无')})</span>
-                      </div>
+                  <div class="sc-list-item">
+                    <div>
+                      <strong style="color:#0f172a;">${esc(charName)}</strong>
+                      <span style="font-size:12px; color:#64748b; margin-left:8px;">【${esc(item.title)}】 (${esc(item.rank ? item.rank + '品' : '无')})</span>
                     </div>
                     <div style="display:flex; gap: 8px;">
-                      <button class="sc-btn" style="padding:4px 8px; font-size:12px;" id="sc-btn-study-promote-${item.char.id}">高升</button>
-                      <button class="sc-btn" style="padding:4px 8px; font-size:12px;" id="sc-btn-study-demote-${item.char.id}">贬退</button>
-                      <button class="sc-btn sc-btn-primary" style="padding:4px 12px; font-size:12px;" id="sc-btn-study-chat-${item.char.id}">密传面晤</button>
+                      <button class="sc-btn-icon" id="sc-btn-study-promote-${item.char.id}" title="晋升任免">${ICONS.up}</button>
+                      <button class="sc-btn-icon" id="sc-btn-study-demote-${item.char.id}" title="降免黜调">${ICONS.down}</button>
+                      <button class="sc-btn-icon sc-btn-primary" id="sc-btn-study-chat-${item.char.id}" title="传召面唔">${ICONS.chat}</button>
                     </div>
                   </div>
                 `;
@@ -1143,21 +1333,21 @@
                 const cid = item.char.id;
 
                 container.querySelector(`#sc-btn-study-promote-${cid}`).onclick = async () => {
-                  const newTitle = await promptInputText('晋级升调', '拟定晋升之职衔（如：大学士、侍郎）');
+                  const newTitle = await promptInputText('升任', '拟定高升之任职衔');
                   if (newTitle) {
                     gameData.roles[cid].title = newTitle;
                     await saveGameData();
-                    roche.ui.toast(`已晋任：${esc(item.char.name)} 为：${esc(newTitle)}。`);
+                    roche.ui.toast(`已任 ${esc(item.char.name)} 为：${esc(newTitle)}。`);
                     renderSubView();
                   }
                 };
 
                 container.querySelector(`#sc-btn-study-demote-${cid}`).onclick = async () => {
-                  const newTitle = await promptInputText('撤免贬调', '拟降级新官职（如：知府、主事）');
+                  const newTitle = await promptInputText('降调', '拟定斥调新官职');
                   if (newTitle) {
                     gameData.roles[cid].title = newTitle;
                     await saveGameData();
-                    roche.ui.toast(`已黜调：${esc(item.char.name)} 贬为：${esc(newTitle)}。`);
+                    roche.ui.toast(`已贬 ${esc(item.char.name)} 为：${esc(newTitle)}。`);
                     renderSubView();
                   }
                 };
@@ -1179,7 +1369,6 @@
               });
 
             } else if (currentSubView === 'chat') {
-              // 模拟长叙事会话页面，此时Dock栏完全隐藏
               const session = gameData.sessions.find(s => s.id === activeChatSessionId);
               if (!session) {
                 currentSubView = null;
@@ -1188,14 +1377,14 @@
               }
 
               const char = listCharacters.find(c => c.id === session.charId);
-              const name = char ? char.name : '未知角色'; // 严格使用本名
+              const name = char ? char.name : '未知角色';
               const role = gameData.roles[session.charId] || {};
 
               viewContainer.innerHTML = `
                 <div class="sc-chat-container">
                   <div class="sc-chat-history" id="sc-chat-msg-box"></div>
                   <div class="sc-chat-input-area">
-                    <input class="sc-chat-input" id="sc-chat-input-dom" placeholder="输入对话裁断..." />
+                    <input class="sc-chat-input" id="sc-chat-input-dom" placeholder="输入问话、裁定..." />
                     <button class="sc-btn sc-btn-primary" id="sc-btn-chat-send" style="padding:10px 16px;">垂问</button>
                   </div>
                 </div>
@@ -1208,7 +1397,7 @@
                 if (session.messages.length === 0) {
                   msgBox.innerHTML = `
                     <div class="sc-chat-msg narrative">
-                      【${esc(name)}】 (${role.title ? esc(role.title) : '待命'}) 恭敬等候您的召见，四周寂静，请发布指示或开启对话。
+                      【${esc(name)}】 (${role.title ? esc(role.title) : '待命'}) 侍立于前。请发布指示开启密会面晤。
                     </div>
                   `;
                   return;
@@ -1237,25 +1426,28 @@
 
               const sendChatMessage = async () => {
                 const text = inputDom.value.trim();
-                if (!text) return;
+                if (!text || isAiThinking) return;
 
                 session.messages.push({ role: 'user', text });
                 inputDom.value = '';
                 renderChatHistory();
                 await saveGameData();
 
-                // 交互描述提示词设定：绝对遵循性别、不堆积套话、简明流畅白描
-                const systemPrompt = `你正在协助用户进行互动模拟演出。
-                  场景：${session.type === 'overnight' ? '后宫密处召见' : '御书房极密面谈'}。
-                  对方：【${char.name}】（封号职衔：【${role.title || '无'}】，品级：【${role.rank || '无'}】）。
+                // 启动 AI 请求状态，顶部动态变更为“输入中……” [1]
+                isAiThinking = true;
+                renderHeader();
+
+                const systemPrompt = `你正在协助用户演绎模拟场景互动。
+                  场景：${session.type === 'overnight' ? '后宫密室留宿' : '御书前殿密晤'}。
+                  对象：【${char.name}】（封号职衔：【${role.title || '无'}】，品级：【${role.rank || '无'}】）。
                   家世背景：【${role.background || '无'}】。
                   
-                  【核心规范约束】：
-                  1. 绝对保护并遵从该角色原本设定的生理性别，禁止在互动中擅自更改、扭转男女倾向；用户的性别无需定义。
-                  2. 坚决摒弃生搬硬套、冗长突兀、假大空的古装陈腐语料和网络烂梗，行文应当干练、干净、流畅，好听自然。
-                  3. 采用简约流畅的第三人称自然白描手法，描写【${char.name}】的神态举止和回答。代称用户时使用“您”或“陛下”。
-                  4. 禁止包含任何 emoji 表情符号。
-                  5. 单次内容回复控制在 100 字左右，保持节奏紧凑。`;
+                  【行为指引规约】：
+                  1. 绝对恪守并保留该角色原本设定的性别属性，绝不擅加颠倒更改；用户性别不予规定。
+                  2. 坚决摒弃网络流行语与庸俗、空泛做作的陈腐仿古套句，行文通顺听着顺耳、利落明朗。
+                  3. 纯净运用第三人称白描自然叙事，描述【${char.name}】的动作反应。代称用户时用“您”或“陛下”。
+                  4. 严格禁止包含任何表情符号 (emoji)。
+                  5. 单次内容回复严格控制在 100 字左右，注重叙述节奏。`;
 
                 let payloadMessages = [
                   { role: 'system', content: systemPrompt }
@@ -1274,10 +1466,13 @@
                   });
                   session.messages.push({ role: 'assistant', text: response.text });
                   await saveGameData();
-                  renderChatHistory();
                 } catch (e) {
-                  session.messages.push({ role: 'assistant', text: '对话中断，请稍后再试。' });
+                  session.messages.push({ role: 'assistant', text: '对话暂无反馈，请改日再叙。' });
                   await saveGameData();
+                } finally {
+                  // 回复完成后恢复普通头部
+                  isAiThinking = false;
+                  renderHeader();
                   renderChatHistory();
                 }
               };
@@ -1305,7 +1500,7 @@
                   <div style="font-size:12px; color:#64748b; margin-bottom: 8px;">${esc(message)}</div>
                   <input class="sc-input" type="text" id="sc-modal-input-val" style="margin-bottom: 12px;">
                   <div style="display:flex; gap: 8px;">
-                    <button class="sc-btn" style="flex:1;" id="sc-modal-cancel">取消</button>
+                    <button class="sc-btn" style="flex:1;" id="sc-modal-cancel">放弃</button>
                     <button class="sc-btn sc-btn-primary" style="flex:1;" id="sc-modal-ok">确定</button>
                   </div>
                 </div>
